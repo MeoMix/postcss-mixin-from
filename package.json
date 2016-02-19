@@ -1,0 +1,32 @@
+{
+  "name": "postcss-mixin-from",
+  "version": "0.0.0",
+  "description": "PostCSS plugin which enhances postcss-mixins with the ability to inline import from other files",
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "mixin"
+  ],
+  "author": "Sean Anderson <Sean.Palmer.Anderson@gmail.com>",
+  "license": "MIT",
+  "repository": "MeoMix/postcss-mixin-from",
+  "bugs": {
+    "url": "https://github.com/MeoMix/postcss-mixin-from/issues"
+  },
+  "homepage": "https://github.com/MeoMix/postcss-mixin-from",
+  "dependencies": {
+    "postcss": "^5.0.14"
+  },
+  "devDependencies": {
+    "ava": "^0.11.0",
+    "eslint": "^1.10.3",
+    "eslint-config-postcss": "^1.0.0"
+  },
+  "scripts": {
+    "test": "ava && eslint *.js"
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-postcss/es5"
+  }
+}
