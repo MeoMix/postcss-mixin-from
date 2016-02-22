@@ -1,6 +1,6 @@
 {
   "name": "postcss-mixin-from",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "PostCSS plugin which enhances postcss-mixins with the ability to inline import from other files",
   "keywords": [
     "postcss",
