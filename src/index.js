@@ -20,7 +20,7 @@ class MixinFrom {
     const promises = [];
 
     css.walkAtRules('mixin', (atRule) => {
-      const { needFetch, mixinName, defineMixinPath } = this._getMixinData(atRule, css.source.input.from);
+      const { needFetch, mixinName, defineMixinPath } = this._getMixinData(atRule);
 
       if (needFetch) {
         // Rewrite the mixin rule to be valid for mixins postcss plugin by dropping " from './path'"
@@ -29,7 +29,7 @@ class MixinFrom {
 
         // Load the file where mixin definition is believed to be.
         // If found, add the mixin definition to the top of this file.
-        const promise = this._getFileText(defineMixinPath)
+        const promise = this._getFileText(defineMixinPath, css.source.input.from)
           .then((importedCssText) => {
             this._insertMixinDefinition(css, mixinName, defineMixinPath, importedCssText);
           });
@@ -41,7 +41,7 @@ class MixinFrom {
     return Promise.all(promises);
   }
 
-  _getMixinData(atRule, from) {
+  _getMixinData(atRule) {
     const mixinData = {
       mixinName: '',
       defineMixinPath: '',
@@ -56,16 +56,14 @@ class MixinFrom {
     if (regexpResult) {
       mixinData.needFetch = true;
       mixinData.mixinName = regexpResult[1];
-      const rawPath = this._removeWrappingQuotes(regexpResult[2]);
-      const baseDirectory = this._getDirectory(from);
-      let absolutePath = this._getAbsolutePath(baseDirectory, rawPath);
+      let rawPath = this._removeWrappingQuotes(regexpResult[2]);
 
       // Assume CSS file if file extension is missing.
-      if (!absolutePath.includes('.css')) {
-        absolutePath = `${absolutePath}.css`;
+      if (!rawPath.includes('.css')) {
+        rawPath = `${rawPath}.css`;
       }
 
-      mixinData.defineMixinPath = absolutePath;
+      mixinData.defineMixinPath = rawPath;
     }
 
     return mixinData;
@@ -96,38 +94,6 @@ class MixinFrom {
 
   _removeWrappingQuotes(string) {
     return string.replace(/^["']|["']$/g, '');
-  }
-
-  _getDirectory(path) {
-    return path.substring(0, path.lastIndexOf('/') + 1);
-  }
-
-  _getAbsolutePath(basePath, relativePath) {
-    // If relativePath is not relative then there is no work to be done.
-    if (relativePath[0] === '/') {
-      return relativePath;
-    }
-
-    const stack = basePath.split('/');
-
-    // Remove filename if exists (or empty string)
-    stack.pop();
-
-    for (const part of relativePath.split('/')) {
-      switch (part) {
-        case '.':
-          // Stay at current level by doing nothing.
-          break;
-        case '..':
-          // Move up a level.
-          stack.pop();
-          break;
-        default :
-          stack.push(part);
-      }
-    }
-
-    return stack.join('/');
   }
 }
 
