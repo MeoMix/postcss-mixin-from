@@ -2,7 +2,6 @@ import postcss from 'postcss';
 import test from 'ava';
 import mixinFrom from '../src';
 
-
 const run = (t, input, output, opts = {}) => {
   return postcss([mixinFrom(opts)]).process(input)
     .then((result) => {

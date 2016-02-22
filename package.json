@@ -1,6 +1,6 @@
 {
   "name": "postcss-mixin-from",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "PostCSS plugin which enhances postcss-mixins with the ability to inline import from other files",
   "keywords": [
     "postcss",
@@ -33,7 +33,7 @@
     "test": "ava --require babel-core/register",
     "transpile": "babel src -d build",
     "prepublish": "npm run transpile",
-    "postpublish": "rm -rf build && git push --follow-tags"
+    "postpublish": "rimraf build"
   },
   "eslintConfig": {
     "extends": "eslint-config-postcss/es5"
