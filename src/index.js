@@ -1,5 +1,4 @@
 import * as postcss from 'postcss';
-import path from 'path';
 
 // This PostCSS plugin extends the functionality of postcss-mixin.
 // It allows for the writing of CSS such as:
@@ -38,7 +37,7 @@ class MixinFrom {
         promises.push(promise);
       }
     });
-    
+
     return Promise.all(promises);
   }
 
@@ -58,11 +57,9 @@ class MixinFrom {
       mixinData.needFetch = true;
       mixinData.mixinName = regexpResult[1];
       const rawPath = this._removeWrappingQuotes(regexpResult[2]);
-      console.log('from:', from);
       const baseDirectory = this._getDirectory(from);
       let absolutePath = this._getAbsolutePath(baseDirectory, rawPath);
-      console.log('baseDir:', baseDirectory);
-      console.log('absolute:', absolutePath);
+
       // Assume CSS file if file extension is missing.
       if (!absolutePath.includes('.css')) {
         absolutePath = `${absolutePath}.css`;
@@ -114,10 +111,10 @@ class MixinFrom {
     const stack = basePath.split('/');
 
     // Remove filename if exists (or empty string)
-    stack.pop(); 
+    stack.pop();
 
-    for (let part of relativePath.split('/')) {
-      switch(part) {
+    for (const part of relativePath.split('/')) {
+      switch (part) {
         case '.':
           // Stay at current level by doing nothing.
           break;
@@ -136,4 +133,4 @@ class MixinFrom {
 
 export default postcss.plugin('mixinFrom', (options = {}) => {
   return new MixinFrom(options.getFileText).plugin;
-})
+});
