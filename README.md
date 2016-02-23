@@ -2,6 +2,7 @@
 
 [PostCSS] plugin which enhances [postcss-mixins] with the ability to inline import from other files.
 
+Input:
 ```css
 .installButton {
   @mixin raisedButton from './button';
@@ -14,8 +15,8 @@
 }
 ```
 
+Output:
 ```css
-.foo {
 .installButton {
   color: white;
   background-color: blue;
@@ -50,10 +51,16 @@ const getFileText = (filePath, relativeToPath) => {
       });
     });
 };
+```
 
-postcss([ require('postcss-mixin-from')({
-    getFileText
-}) ])
+Be sure to run this plugin before [postcss-mixins].
+```js
+const mixinFrom = require('postcss-mixin-from');
+const mixins = require('postcss-mixins');
+postcss([
+  mixinFrom({getFileText}),
+  mixins
+])
 ```
 
 See [PostCSS] docs for examples for your environment.
