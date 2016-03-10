@@ -78,9 +78,12 @@ class MixinFrom {
     let mixinDefinition = null;
     const parsedCss = postcss.parse(importedCssText);
 
-    parsedCss.walkAtRules('define-mixin', (atRule) => {
+    parsedCss.walkAtRules('mixin-definition', (atRule) => {
       if (atRule.params === mixinName) {
         mixinDefinition = atRule;
+        // Rename mixinDefinition to define-mixin so postcss-mixins will utilize it.
+        // Don't name initial rule define-mixin or postcss-mixins will delete it prematurely.
+        mixinDefinition.name = 'define-mixin';
       }
     });
 

@@ -10,16 +10,19 @@ Input:
 }
 
 /* button.css */
-@define-mixin raisedButton {
+@mixin-definition raisedButton {
   color: white;
 }
 ```
 
 Output:
 ```css
-.installButton {
+@define-mixin raisedButton {
   color: white;
-  background-color: blue;
+}
+
+.installButton {
+  @mixin raisedButton;
 }
 ```
 
