@@ -3,7 +3,7 @@ import * as postcss from 'postcss';
 // This PostCSS plugin extends the functionality of postcss-mixin.
 // It allows for the writing of CSS such as:
 // .foo {
-//   @mixin fancyMixin from './fooMixin[.css]'
+//   @mixin fancyMixin from './fooMixin[.trait]'
 // }
 // The css file-ending is optional. An @define-mixin atRule found in fooMixin.css will be
 // inlined into the top of the file requesting to use fancyMixin.
@@ -49,7 +49,7 @@ class MixinFrom {
     };
 
     // We're looking for atRules of the form:
-    // @mixin exampleMixin from './foo.css';
+    // @mixin exampleMixin from './foo.trait';
     const matchImports = /^(.+?)\s+from\s+("[^"]*"|'[^']*'|[\w-]+)$/;
     const regexpResult = matchImports.exec(atRule.params);
 
@@ -58,9 +58,9 @@ class MixinFrom {
       mixinData.mixinName = regexpResult[1];
       let rawPath = this._removeWrappingQuotes(regexpResult[2]);
 
-      // Assume CSS file if file extension is missing.
-      if (!rawPath.includes('.css')) {
-        rawPath = `${rawPath}.css`;
+      // Assume trait file if file extension is missing.
+      if (!rawPath.includes('.trait')) {
+        rawPath = `${rawPath}.trait`;
       }
 
       mixinData.defineMixinPath = rawPath;

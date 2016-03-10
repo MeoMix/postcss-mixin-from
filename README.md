@@ -5,11 +5,11 @@
 Input:
 ```css
 .installButton {
-  @mixin raisedButton from './button';
+  @mixin raisedButton from './button[.trait]';
   background-color: blue;
 }
 
-/* button.css */
+/* button.trait */
 @mixin-definition raisedButton {
   color: white;
 }
@@ -46,13 +46,9 @@ const getFileText = (filePath, relativeToPath) => {
 
   const canonicalParent = relativeToPath.replace(/^\//, '');
 
-  return System.normalize(absolutePath, path.join(System.baseURL, canonicalParent))
-    .then((normalizedPath) => {
-      return System.fetch({
-        address: normalizedPath,
-        metadata: {}
-      });
-    });
+  return System
+    .normalize(absolutePath, path.join(System.baseURL, canonicalParent))
+    .then(System.import.bind(System));
 };
 ```
 
