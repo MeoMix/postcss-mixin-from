@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/MeoMix/postcss-mixin-from",
   "dependencies": {
-    "postcss": "^5.0.19"
+    "postcss": "^5.2.3"
   },
   "devDependencies": {
     "ava": "^0.12.0",
